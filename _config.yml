@@ -1,0 +1,30 @@
+title: "Lukas Himsel"
+description: "Lukas Himsels persönliche Website mit Themen wie Musik, Klaviere, Open-Data, Open-Source und Webprojekten."
+about: "Schüler, der gerne Klavier spielt, Joggen geht und <i>versucht</i>, Websites und Programme zu entwickeln."
+location: "Deutschland, Kitzingen"
+email: lukas@himsel.me
+baseurl: ""
+url: "http://himsel.me"
+twitter_username: lukashimsel
+github_username:  lukas-h
+
+# google analytics tracking code, please change the value
+g_analytics: "UA-72004048-3"
+
+# language settings
+isolang: de
+close_btn: "Ausblenden"
+home_btn: "Startseite"
+projects_btn: "Projekte"
+posts_btn: "Posts"
+imprint_btn: "Impressum"
+name_badge: "Ein Artikel von"
+rss_badge: "Feed abbonieren!"
+
+# build settings
+markdown: kramdown
+
+# exclude files
+exclude:
+  - LICENSE
+  - README.md
