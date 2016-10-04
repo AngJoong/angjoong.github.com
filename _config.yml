@@ -1,12 +1,12 @@
-title: "Lukas Himsel"
-description: "Lukas Himsels persönliche Website mit Themen wie Musik, Klaviere, Open-Data, Open-Source und Webprojekten."
-about: "Schüler, der gerne Klavier spielt, Joggen geht und <i>versucht</i>, Websites und Programme zu entwickeln."
-location: "Deutschland, Kitzingen"
-email: lukas@himsel.me
+title: "Develop"
+description: "I hate to go to work. I like to write this blog"
+about: "I hate to go to work."
+location: "Koaea"
+email: conquerorj@naver.com
 baseurl: ""
-url: "http://himsel.me"
-twitter_username: lukashimsel
-github_username:  lukas-h
+url: "https://angjoong.github.io/"
+twitter_username:
+github_username:
 
 # google analytics tracking code, please change the value
 g_analytics: "UA-72004048-3"
