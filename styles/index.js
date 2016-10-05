@@ -1,3 +1,5 @@
+var categoryList = "#first,#second,#third,#archive";
+
 var hide_lists = function (cb) {
     $('.category').fadeOut(300);
     $('.category-btn').removeClass('disabled');
@@ -5,8 +7,11 @@ var hide_lists = function (cb) {
 
 function show_category(categoryName) {
     $('.category-btn').removeClass('disabled');
-    $('.category').fadeOut(300, function () {
-      $('#' + categoryName).fadeIn(300);
-    });
+    $('.category').hide();
+
+    fadeOutList = categoryList.repace("#" + categoryName);
+
+ $('#' + categoryName).fadeIn(300);
+
     $('#' + categoryName + '-btn').addClass('disabled');
 }
