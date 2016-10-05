@@ -3,18 +3,18 @@ layout: default
 ---
 <script src="{{ "/styles/index.js" | prepend: site.baseurl }}"></script>
 <div>
-  <a id="first-btn" class="waves-effect waves-teal btn-flat btn-large" onclick="show_first();">{{ site.first-btn }}</a>
-  <a id="second-btn" class="waves-effect waves-teal btn-flat btn-large" onclick="show_second();">{{ site.second-btn }}</a>
+  <a id="first-btn" class="waves-effect waves-teal btn-flat btn-large" onclick="show_first();">{{ site.first_btn }}</a>
+  <a id="second-btn" class="waves-effect waves-teal btn-flat btn-large" onclick="show_second();">{{ site.second_btn }}</a>
 </div>
 <div id="first">
 
-  <h2 class="my-mini-heading">{{ site.first-btn }}</h2>
+  <h2 class="my-mini-heading">{{ site.first_btn }}</h2>
 
   <ul>
     {% for post in site.categories.scala %}
     <li>
       <p class="my-item">
-        <a href="{{ scala.url | prepend: site.baseurl }}" class="my-link">{{ post.title }}</a><br>
+        <a href="{{ post.url | prepend: site.baseurl }}" class="my-link">{{ post.title }}</a><br>
         <span class="my-item-sub">{{ post.date | date: "%b %-d, %Y" }}</span>
       </p>
     </li>
@@ -38,7 +38,7 @@ layout: default
     {% for post in site.categories.effectiveJava %}
     <li>
       <p class="my-item">
-        <a href="{{ effectiveJava.url | prepend: site.baseurl }}" class="my-link">{{ effectiveJava.title }}</a><br>
+        <a href="{{ effectiveJava.url | prepend: site.baseurl }}" class="my-link">{{ post.title }}</a><br>
         <span class="my-item-sub">{{ post.date | date: "%b %-d, %Y" }}</span>
       </p>
     </li>
