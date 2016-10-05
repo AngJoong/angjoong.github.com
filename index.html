@@ -5,6 +5,7 @@ layout: default
 <div>
   <a id="first-btn" class="waves-effect waves-teal btn-flat btn-large" onclick="show_first();">{{ site.first_btn }}</a>
   <a id="second-btn" class="waves-effect waves-teal btn-flat btn-large" onclick="show_second();">{{ site.second_btn }}</a>
+  <a id="archive-btn" class="waves-effect waves-teal btn-flat btn-large" onclick="show_archive();">{{ site.archive_btn }}</a>
 </div>
 <div id="first">
 
@@ -38,7 +39,31 @@ layout: default
     {% for post in site.categories.effectiveJava %}
     <li>
       <p class="my-item">
-        <a href="{{ effectiveJava.url | prepend: site.baseurl }}" class="my-link">{{ post.title }}</a><br>
+        <a href="{{ post.url | prepend: site.baseurl }}" class="my-link">{{ post.title }}</a><br>
+        <span class="my-item-sub">{{ post.date | date: "%b %-d, %Y" }}</span>
+      </p>
+    </li>
+    {% endfor %}
+    <li>
+      <p class="my-item">
+        <a href="{{ "/feed.xml" | prepend: site.baseurl }}" class="my-link">RSS</a> / <a href="{{ "/atom.xml" | prepend: site.baseurl }}" class="my-link">ATOM</a><br>
+        <span class="my-item-sub"><i class="fa fa-rss" aria-hidden="true"></i> {{ site.rss_badge }}</span>
+    </li>
+  </ul>
+
+  <div>
+    <a onclick="hide_lists();" class="waves-effect waves-teal btn-flat btn-large">{{ site.close_btn }}</a>
+  </div>
+</div>
+<div id="archive">
+
+  <h2 class="my-mini-heading">{{ site.archive_btn }}</h2>
+
+  <ul>
+    {% for post in site.posts %}
+    <li>
+      <p class="my-item">
+        <a href="{{ post.url | prepend: site.baseurl }}" class="my-link">{{ post.title }}</a><br>
         <span class="my-item-sub">{{ post.date | date: "%b %-d, %Y" }}</span>
       </p>
     </li>
