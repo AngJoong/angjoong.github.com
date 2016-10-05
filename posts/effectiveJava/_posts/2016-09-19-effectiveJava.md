@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "effective java test
+title:  "effective java test"
 date:   2016-09-19 22:10:00 +0200
 tags: ['english', 'jekyll', 'theme']
 author: "Lukas Himsel"
