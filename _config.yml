@@ -1,3 +1,6 @@
+gems:
+  - pygments.rb
+
 title: "Develop"
 description: "I hate to go to work. I like to write this blog"
 about: "I hate to go to work."
@@ -24,7 +27,7 @@ name_badge: "Ein Artikel von"
 rss_badge: "Feed abbonieren!"
 
 # build settings
-markdown: kramdown
+markdown: KramdownPygments
 pygments: true
 
 # exclude files
