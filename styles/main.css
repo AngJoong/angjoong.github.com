@@ -174,7 +174,7 @@ a{
     color: #38c1c1;
 }
 .my-text-body{
-    font-family: 'Libre Baskerville', serif;
+    font-family: 'Nanum Gothic', 'Libre Baskerville', serif;
     font-size: 20px;
     margin-top: 20px;
 }
@@ -184,22 +184,22 @@ a{
     margin-bottom: 20px;
 }
 .my-text-body h1{
-    font-size: 32px;
+    font-size: 35px;
 }
 .my-text-body h2{
-    font-size: 29px;
+    font-size: 31px;
 }
 .my-text-body h3{
     font-size: 26px;
 }
 .my-text-body h4{
-    font-size: 25px;
+    font-size: 22px;
 }
 .my-text-body h5{
-    font-size: 24px;
+    font-size: 18px;
 }
 .my-text-body h6{
-    font-size: 22px;
+    font-size: 14px;
 }
 .my-text-author{
     font-size: 22px;
