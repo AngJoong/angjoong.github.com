@@ -1,4 +1,3 @@
-
 title: "Develop"
 description: "I hate to go to work. I like to write this blog"
 about: "I hate to go to work."
@@ -26,9 +25,10 @@ rss_badge: "Feed abbonieren!"
 
 # build settings
 markdown: kramdown
-encoding: utf-8
-highlighter: rouge
-highlighter: pygments
+pygments: true
+syntax-highlighting:
+  enabled : true
+  css: syntax.css
 
 # exclude files
 exclude:
