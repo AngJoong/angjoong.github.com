@@ -25,6 +25,7 @@ rss_badge: "Feed abbonieren!"
 
 # build settings
 markdown: kramdown
+pygments: true
 
 # exclude files
 exclude:
