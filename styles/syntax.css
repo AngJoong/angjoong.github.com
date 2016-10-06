@@ -67,3 +67,6 @@
 .highlight {padding: 12px; border: 1px solid rgb(230, 219, 219); border-radius:10px;}
 
 code.highlighter-rouge {background: #f3f3f3; padding: 4px; border-radius: 5px; color: #bb133d;}
+
+.my-mini-heading-sub{display: block;}
+.my-mini-heading-description{font-size: 15px; color: gray; margin-top: 0px; padding-top: 0px; display: inherit; line-height: 30px;}
