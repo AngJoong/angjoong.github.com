@@ -77,3 +77,4 @@ code.highlighter-rouge {background: #f3f3f3; padding: 4px; border-radius: 5px; c
 
 p {margin-bottom: 5px}
 ul, ol{margin-top: 0px}
+.list-style-none{list-style: none;}
