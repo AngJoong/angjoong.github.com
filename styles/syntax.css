@@ -70,3 +70,7 @@ code.highlighter-rouge {background: #f3f3f3; padding: 4px; border-radius: 5px; c
 
 .my-mini-heading-sub{display: block;}
 .my-mini-heading-description{font-size: 15px; color: gray; margin-top: 0px; padding-top: 0px; display: inherit; line-height: 30px;}
+
+.my-text-body ul, .my-text-body ol{
+  padding-left: 40px;
+}
