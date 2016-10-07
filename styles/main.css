@@ -181,7 +181,6 @@ a{
 .my-text-body h1,h2,h3,h4,h5,h6 {
     font-family:'Nanum Gothic', 'Rubik One', sans-serif;
     font-weight: bold !important;
-    margin-bottom: 20px;
 }
 .my-text-body h1{
     font-size: 35px;
