@@ -70,11 +70,10 @@ description: "기본 파일 시스템과 비슷한 계층적 네임 스페이스
 |dataLength|노드의 데이터 필드 길이|
 |numChildren|자식노드의 개수|
 
+<br>
+<br>
+<br>
+<br>
+<br>
 
-
-
-
-
-
-
-\#1. https://zookeeper.apache.org/doc/trunk/zookeeperOver.html
+\#1. https://zookeeper.apache.org/doc/trunk/zookeeperProgrammers.html#ch_zkDataModel
