@@ -25,7 +25,7 @@ rss_badge: "Feed abbonieren!"
 
 # build settings
 markdown: kramdown
-pygments: true
+highlighter: rouge
 syntax-highlighting:
   enabled : true
   css: syntax.css
