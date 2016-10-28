@@ -31,8 +31,18 @@ description: "원자성 브로드캐스팅, 로깅등 주키퍼 내부 프로세
 ### 순서화된 전달(Ordered delivery)
 
 ### 종료 후 메시지 없음(No message after close)
- 
 
+
+ [FLP](http://the-paper-trail.org/blog/a-brief-tour-of-flp-impossibility/): 지연될 순 있으나 손실되진 않는 비동기 네트워크에서, 적어도 하나의 노드가 Fail-Stop이라면 모든 실행에서(in every execution for all starting conditions) 종료가 보장되는 컨센서스([Consensus](https://en.wikipedia.org/wiki/Consensus_(computer_science)) 알고리즘은 없다.
+
+비동기에서 하나의 프로세서라도 중단될 경우, 컨센서스 문제를 해결할 수 있는 분산 알고리즘은 없다.
+
+
+
+
+ Fail-Stop: 오류 발생시, 불완전한 동작을 하지 않고 바로 멈추는 것
+
+[Consensus](https://en.wikipedia.org/wiki/Consensus_(computer_science): 분산 컴퓨팅과 다중 에이전트 시스템에서의 근본적인 문제는 다수의 결함이 있는 프로세스들의 존재하에서 전체 시스템 안정성을 달성하는 것이다. 이것은 종종 **계산시 필요한 일부 데이터의 값에 동의하는 과정**이 필요하다. 컨센서스(Conssensus) 프로그램의 예로는 데이터베이스에 트랜잭션을 커밋할 것인지, 리더 식별에 대한 동의(agreeing on the identity of), 상태 머신 복제 및 아토믹 브로드캐스팅을 포함한다.
 <br>
 <br>
 <br>
