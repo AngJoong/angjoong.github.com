@@ -4,8 +4,27 @@ title:  "Internals"
 date:   2016-10-27 23:01:00 +0000
 tags: ['Zookeeper']
 author: "AngJoong"
-description: "원자성 브로드캐스팅, 로깅등 주키퍼 내부 프로세스에 대해 알아보자"
+description: "아토믹 브로드캐스팅, 로깅등 주키퍼 내부 프로세스"
 ---
+
+# Quorums
+'Atomic Broadcast'와 'Leader Election'은 시스템의 일관된 뷰를 보장하기 위해 쿼럼(Quorums)을 사용한다. 주키퍼는 티폴트 값으로 과반수 이상의 투표가 요구되는 과반수 쿼럼을 사용한다. `Acknowledging a leader proposal`는 그 예로 서버들의 쿼럼으로부터 acknowledgement를 받아야 리더가 커밋할 수 있다.  
+
+## 과반수 쿼럼(Majority Quorums)
+만약 과반수 쿼럼을 사용하기 위해 반드시 필요한 속성을 추출하자면, 최소 하나의 서버에서 쌍으로 교차 투표함으로써 작업을 검증하기 위한 프로세스들의 그룹을 보장할 필요가 있다. 과반수는 이 속성을 보장한다.
+-> 과반수 쿼럼을 사용하게 되면 과반수 이하의 서버들에 장애가 났을때 나머지 서버들에서 쿼럼을 얻게되면 두 쿼럼간에 반드시 중복되는 최소 하나의 서버가 있기때문에 정상적인 데이터 처리가 가능하다.
+
+과반수와는 다른 쿼럼을 구성하는 여러 방법이 있다.  
+
+## 가중치 쿼럼(Weights Quorums)
+서버들의 투표에 가중치(Weights)를 할당해 몇몇 서버들의 투표를 더 중요하게 여긴다. 가중치 쿼럼을 얻으려면, 전체 서버들의 가중치 합의 절반보다 쿼럼 가중치의 합이 더 커야한다.  
+
+## 계층 쿼럼(Hierarchical Quorums)
+가중치를 사용하며 넓은 지역 배포(wide-area deployments in co-locaiton)에서 유용하다. 이 구성은 서버들을 분리된 그룹으로 나누고 각 서버에 가중치를 할당한다. 쿼럼을 만들기 위해선 과반수 이상의 그룹이 쿼럼이 되어야 한다. 그룹내 쿼럼 가중치의 합이 해당 그룹의 총 가중치보다 크면 해당 그룹은 쿼럼 그룹이 된다. 흥미로운 것은 이 구성은 쿼럼을 작게 만들 수 있다. 예를들어 서버가 9개가 있다면, 3그룹으로 나누고 각 서버에 1의 가중치를 할당하면 쿼럼을 4개로 구성할 수 있다.(각 그룹중 2개의 그룹에서 2개씩만 뽑아내는 경우라고 생각된다.) Note that two subsets of processes composed each of a majority of servers from each of a majority of groups necessarily have a non-empty intersection. It is reasonable to expect that a majority of co-locations will have a majority of servers available with high probability.
+
+아... 계층 쿼럼....
+
+
 
 # Atomic Broadcast
 주키퍼의 핵심은 모든 서버의 동시성 유지시키는 아토믹 메시징 시스템에 있다.  
@@ -60,6 +79,8 @@ zxid는 두 부분으로 나뉜다: epoch와 counter이다.
 \#3.  [Consensus](https://en.wikipedia.org/wiki/Consensus_(computer_science): 분산 컴퓨팅과 다중 에이전트 시스템에서의 근본적인 문제는 다수의 결함이 있는 프로세스들의 존재하에서 전체 시스템 안정성을 달성하는 것이다. 이것은 종종 **계산시 필요한 일부 데이터의 값에 동의하는 과정**이 필요하다. 컨센서스(Conssensus) 프로그램의 예로는 데이터베이스에 트랜잭션을 커밋할 것인지, 리더 식별에 대한 동의(agreeing on the identity of), 상태 머신 복제 및 아토믹 브로드캐스팅을 포함한다.
 
 \#4. Quorum:
+
+\#5. [주키퍼 과반수 쿼럼](http://hamait.tistory.com/193)
 
 
 <br>
