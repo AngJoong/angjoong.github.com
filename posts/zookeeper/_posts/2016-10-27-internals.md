@@ -8,7 +8,7 @@ description: "아토믹 브로드캐스팅, 로깅등 주키퍼 내부 프로세
 ---
 
 # Quorums
-'Atomic Broadcast'와 'Leader Election'은 시스템의 일관된 뷰를 보장하기 위해 쿼럼(Quorums)을 사용한다. 주키퍼는 티폴트 값으로 과반수 이상의 투표가 요구되는 과반수 쿼럼을 사용한다. `Acknowledging a leader proposal`는 그 예로 서버들의 쿼럼으로부터 acknowledgement를 받아야 리더가 커밋할 수 있다.  
+'Atomic Broadcast'와 'Leader Election'은 시스템의 일관된 뷰를 보장하기 위해 쿼럼(Quorums)을 사용한다. 주키퍼는 디폴트 값으로 과반수 이상의 투표가 요구되는 과반수 쿼럼을 사용한다. `Acknowledging a leader proposal`는 그 예로 서버들의 쿼럼으로부터 acknowledgement를 받아야 리더가 커밋할 수 있다.  
 
 ## 과반수 쿼럼(Majority Quorums)
 만약 과반수 쿼럼을 사용하기 위해 반드시 필요한 속성을 추출하자면, 최소 하나의 서버에서 쌍으로 교차 투표함으로써 작업을 검증하기 위한 프로세스들의 그룹을 보장할 필요가 있다. 과반수는 이 속성을 보장한다.
@@ -21,10 +21,6 @@ description: "아토믹 브로드캐스팅, 로깅등 주키퍼 내부 프로세
 
 ## 계층 쿼럼(Hierarchical Quorums)
 가중치를 사용하며 넓은 지역 배포(wide-area deployments in co-locaiton)에서 유용하다. 이 구성은 서버들을 분리된 그룹으로 나누고 각 서버에 가중치를 할당한다. 쿼럼을 만들기 위해선 과반수 이상의 그룹이 쿼럼이 되어야 한다. 그룹내 쿼럼 가중치의 합이 해당 그룹의 총 가중치보다 크면 해당 그룹은 쿼럼 그룹이 된다. 흥미로운 것은 이 구성은 쿼럼을 작게 만들 수 있다. 예를들어 서버가 9개가 있다면, 3그룹으로 나누고 각 서버에 1의 가중치를 할당하면 쿼럼을 4개로 구성할 수 있다.(각 그룹중 2개의 그룹에서 2개씩만 뽑아내는 경우라고 생각된다.) Note that two subsets of processes composed each of a majority of servers from each of a majority of groups necessarily have a non-empty intersection. It is reasonable to expect that a majority of co-locations will have a majority of servers available with high probability.
-
-아... 계층 쿼럼....
-
-
 
 # Atomic Broadcast
 주키퍼의 핵심은 모든 서버의 동시성 유지시키는 아토믹 메시징 시스템에 있다.  
