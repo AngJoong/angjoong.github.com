@@ -8,23 +8,27 @@ description: "아토믹 브로드캐스팅, 로깅등 주키퍼 내부 프로세
 ---
 
 # 1. Atomic Broadcast
-주키퍼의 핵심은 모든 서버간 동기화를 유지시키는 아토믹 메시징 시스템에 있다.  
+주키퍼의 핵심은 모든 서버간 동기화를 유지시키는 아토믹 메시징 시스템에 있다. - [Atomic Broadcase](http://www.cs.yale.edu/homes/aspnes/pinewiki/Broadcast.html)  
 
-## 1.1 Guarantees, Properties, and Definitions
+## 1.1 Guarantees
 주키퍼가 사용하는 메시징 시스템이 제공하는 보장성은 아래와 같다.  
 
-* **신뢰성있는 전송(Reliable delivery)**  
-  만약 한 서버에 의해 메세지 M이 전송되면, 결국 모든 서버에 의해 메세지 M은 전송될 것이다. (If a message, m, is delivered by one server, it will be eventually delivered by all servers.)
+* **신뢰성 전송(Reliable delivery)**  
+  만약 한 서버가 메세지 M을 전송하면, 결국 모든 서버로 메세지 M은 전송될 것이다.
 
 * **전체 순서(Total order)**  
-만약 하나의 서버에서 메세지 A가 메세지 B보다 먼저 전송되면, 모든 서버에서도 A는 B보다 먼저 전송된다. 만약 A, B가 전송이 완료된 메세지라면, A가 B전에 전송되었거나 B가 A전에 전송된 것이다. (If a message is delivered before message b by one server, a will be delivered before b by all servers. If a and b are delivered messages, either a will be delivered before b or b will be delivered before a.)
+만약 하나의 서버에서 메세지 A가 메세지 B보다 먼저 전송되면, 모든 서버에서도 A는 B보다 먼저 전송된다. -> M1, M2 순으로 전송된 메세지들이 하나의 서버에 M2, M1순으로 전달 되는 경우에 모든 서버에서도 M2, M1 순으로 메세지를 받는다. **전송된 순서와 관계없이 모든 서버들이 메세지를 받는 순서가 같다는 의미.**
 
-* **인과 순서(Causal order)**  
-만약 B가 B의 샌더에 의해 전송이 완료된 A 다음에 전송된다면, A는 B보다 먼저 주문된 것이다. 만약 샌더가 B를 보내고 나서 C를 전송했다면, C는 B 다음 순서로 주문된 것이다. (If a message b is sent after a message a has been delivered by the sender of b, a must be ordered before b. If a sender sends c after sending b, c must be ordered after b.)
+* **인과 순서([Causal order](http://scattered-thoughts.net/blog/2012/08/16/causal-ordering/))**  
+만약 B의 샌더에 의해 전송이 완료된 메세지 A의 다음에 메세지 B가 전송된다면, A는 B보다 먼저 주문된 것이다. -> 각 서버 A, B에서 A의 이벤트 a가 00:00:00, B의 이벤트 b가 00:00:01발생했다면 a가 더 빨리 발생했을 수도 있고 상대적으로 시간만 b보다 빠른거일 수도 있다. 이런 경우 순서를 보장하기 위해서 두 이벤트 사이에 a이벤트 발생 -> A-B간 이벤트 발생 -> b이벤트 발생 와 같이 인과관계가 생기면 순서를 보장할 수 있다.
 
-주키퍼 메시징 시스템은 효율적이고 안정적이며 구현하고 유지보수하기 쉬워야 한다. 우리는 메시지를 많이 사용하기 때문에 시스템이 초마다 수천개의 요청을 다를수 있어야한다.  우리는 메세지를 보내기 위해 최소 K+1개의 정상 서버를 요구하더라도, 전력 중단과 같은 실패로 부터 복구할 수 있어야 한다. 시스템을 구현할때, 시간도 없고 엔지니어링 리소스도 부족했다. 그래서 엔지니어가 접근하기 쉽고 구현하기 쉬운 프로토콜이 필요했다. 이러한 모든 목표를 만족시켜 프로토콜을 개발했다.  
+###### &lt;Causal Order>
+![](https://upload.wikimedia.org/wikipedia/commons/5/55/Vector_Clock.svg)
 
-이 프로토콜은 서버간 point-to-point FIFO 채널을 구축할 수 있다고 가정한다. 유사 서비스들은 메시지 전달이 손실되거나 재전송 될 수 있다고 가정하는 반면, 주키퍼의 FIFO 채널에 대한 가정은 통신을 위해 사용하는 TCP에 매우 실용적이다. 특히 TCP의 다음 특성들에 의존한다.  
+## 1.2 Properties, and Definitions
+주키퍼 메시징 시스템은 효율적이고 안정적이며 구현과 유지보수가 쉬워야 한다. 주키퍼는 많은 메시지를 사용하기 때문에 초마다 수천개의 요청을 다를수 있어야한다. 주키퍼는 메세지를 보내기 위해 최소 K+1개의 정상 서버를 요구하지만, 전력 중단과 같은 실패로 부터 복구할 수 있어야 한다.  
+
+주키퍼는 이러한 속성을 만족하는 프로토콜을 발견했다. 이 프로토콜은 서버간 point-to-point FIFO 채널을 구축할 수 있다고 가정한다. 유사 서비스들은 메시지 전달이 손실되거나 재전송 될 수 있다고 가정하는 반면, 통신을 위해 TCP를 사용하는 것이 FIFO 채널에 매우 실용적일것이라 생각했다. 특히 TCP의 다음 특성들에 의존한다.  
 
 ### 순서화된 전달(Ordered delivery)
 데이터는 보낸 순서대로 전달된다. 그리고 메세지 M은 M전에 보낸 모든 메시지가 전달 된 후에 만 전달된다. (이에 대한 추론으로 M이 손실 될 경우 M 이후 모든 메시지는 손실 될 것이다.)
@@ -82,4 +86,6 @@ zxid는 두 부분으로 나뉜다: epoch와 counter이다.
 <br>
 <br>
 
-\#1. https://zookeeper.apache.org/doc/trunk/zookeeperProgrammers.html#ch_zkWatches
+\#1. Zookeeper Internals - https://zookeeper.apache.org/doc/trunk/zookeeperInternals.html#sc_atomicBroadcast  
+\#2. Atomic Broadcast - http://www.cs.yale.edu/homes/aspnes/pinewiki/Broadcast.html
+\#3. Causal Order - http://scattered-thoughts.net/blog/2012/08/16/causal-ordering/
