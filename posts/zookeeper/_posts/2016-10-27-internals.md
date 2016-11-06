@@ -54,13 +54,6 @@ FIFO 채널에 의해 보내지는 바이트의 시퀀스
 
 주키퍼는 메시지의 전체 순서(Total Order)를 보장한다고 앞서 말한거처럼, 프로포절의 전체 순서(Total Order) 또한 보장한다. 주키퍼는 zxid(주키퍼 트랜잭션 아이디)를 사용해 전체 순서를 나타낸다. 모든 프로포절은 제안되고 정확한 전체 순서를 반영할때 zxid를 갖는다. 프로퍼절은 주키퍼의 정족수가 프로포절에 승인(Acknowledgement)했을때 주키퍼로 보내지고 커밋된다. 만약 프로퍼절이 메시지를 포함하고 있다면, 메시지는 프로포절이 커밋될때 전달될것이다. 승인은 서버가 영구 저장소에 프로포절을 기록하는것을 의미한다. 정족수들은 어떠한 정족수의 쌍이라도 반드시 최소 하나의 공통서버를 가져야 된다는 요구사항이 있다.(쿼럼 장애에 대한 복구시 데이터 복원을 위해) 주키퍼 서버의 수가 n개 일때, n/2+1개의 정족수를 요구함으로써 이와 같은 문제를 보장한다.  
 
-zxid는 두 부분으로 나뉜다: epoch와 counter이다. zxid는 64-bit로 구현되어 있다.
-
-* **메시지(Message)**
-모든 주키퍼 서버로 자동으로 브로드캐스트되는 바이트의 시퀀스. 메세지는 프로포절에 포함되며 전달되기 전에 합의가 이루어진다.
-
-주키퍼는 메시지의 전체 순서(Total Order)를 보장한다고 앞서 말한거처럼, 프로포절의 전체 순서(Total Order) 또한 보장한다. 주키퍼는 zxid(주키퍼 트랜잭션 아이디)를 사용해 전체 순서를 나타낸다. 모든 프로포절은 제안되고 정확한 전체 순서를 반영할때 zxid를 갖는다. 프로퍼절은 주키퍼의 정족수가 프로포절에 승인(Acknowledgement)했을때 주키퍼로 보내지고 커밋된다. 만약 프로퍼절이 메시지를 포함하고 있다면, 메시지는 프로포절이 커밋될때 전달될것이다. 승인은 서버가 영구 저장소에 프로포절을 기록하는것을 의미한다. 정족수들은 어떠한 정족수의 쌍이라도 반드시 최소 하나의 공통서버를 가져야 된다는 요구사항이 있다.(쿼럼 장애에 대한 복구시 데이터 복원을 위해) 주키퍼 서버의 수가 n개 일때, n/2+1개의 정족수를 요구함으로써 이와 같은 문제를 보장한다.  
-
 zxid는 두 부분으로 나뉜다: epoch와 counter이다. zxid는 64-bit로 구현되어 있다. 상위 32-bit는 epoch, 하위 32-bit는 counter에 사용된다. zxidr가 두 부분으로 나뉘기 때문에 넘버나 정수의 쌍(epoch, counter)으로 나타낸다. (Because it has two parts represent the zxid both as a number and as a pair of integers.) epoch는 리더의 변경을 나타낸다. 새로운 리더가 선출될 때마다 그 리더만의 epoch 넘버를 갖는다. 유니크한 zxid를 프로포절에 할당하는 간단한 알고리즘이 있다: 리더는 단순히 각 프로포절을 위한 zxid를 얻기 위해 zxid를 증가시킨다.  
 
 주키퍼 메시징은 두 페이즈(phases)로 나뉜다.
@@ -96,16 +89,15 @@ zxid는 두 부분으로 나뉜다: epoch와 counter이다. zxid는 64-bit로 �
 <br>
 
 \#1.  FLP - http://the-paper-trail.org/blog/a-brief-tour-of-flp-impossibility/  
-  : 비동기에서 하나의 프로세서라도 중단될 경우, 컨센서스 문제를 해결할 수 있는 분산 알고리즘은 없다. 지연될 순 있으나 손실되진 않는 비동기 네트워크에서, 적어도 하나의 노드가 Fail-Stop이라면 모든 실행에서(in every execution for all starting conditions) 종료가 보장되는 컨센서스(Consensus) 알고리즘은 없다.
+: 비동기에서 하나의 프로세서라도 중단될 경우, 컨센서스 문제를 해결할 수 있는 분산 알고리즘은 없다. 지연될 순 있으나 손실되진 않는 비동기 네트워크에서, 적어도 하나의 노드가 Fail-Stop이라면 모든 실행에서(in every execution for all starting conditions) 종료가 보장되는 컨센서스(Consensus) 알고리즘은 없다.
 
 \#2. Fail-Stop  
-  : 오류 발생시, 불완전한 동작을 하지 않고 바로 멈추는 것
+: 오류 발생시, 불완전한 동작을 하지 않고 바로 멈추는 것
 
-\#3. Consensus - https://en.wikipedia.org/wiki/Consensus_(computer_science  
-  : 분산 컴퓨팅과 다중 에이전트 시스템에서의 근본적인 문제는 다수의 결함이 있는 프로세스들의 존재하에서 전체 시스템 안정성을 달성하는 것이다. 이것은 종종 **계산시 필요한 일부 데이터의 값에 동의하는 과정**이 필요하다. 컨센서스(Conssensus) 프로그램의 예로는 데이터베이스에 트랜잭션을 커밋할 것인지, 리더 식별에 대한 동의(agreeing on the identity of), 상태 머신 복제 및 아토믹 브로드캐스팅을 포함한다.
+\#3. Consensus - https://en.wikipedia.org/wiki/Consensus_(computer_science : 분산 컴퓨팅과 다중 에이전트 시스템에서의 근본적인 문제는 다수의 결함이 있는 프로세스들의 존재하에서 전체 시스템 안정성을 달성하는 것이다. 이것은 종종 **계산시 필요한 일부 데이터의 값에 동의하는 과정**이 필요하다. 컨센서스(Conssensus) 프로그램의 예로는 데이터베이스에 트랜잭션을 커밋할 것인지, 리더 식별에 대한 동의(agreeing on the identity of), 상태 머신 복제 및 아토믹 브로드캐스팅을 포함한다.
 
-\#4. Quorum -http://terms.naver.com/entry.nhn?docId=1140788&cid=40942&categoryId=31645  
-:합의체가 의사(議事)를 진행시키거나 의결을 하는 데 필요한 최소한도의 인원수
+\#4. Quorum - http://terms.naver.com/entry.nhn?docId=1140788&cid=40942&categoryId=31645  
+: 합의체가 의사(議事)를 진행시키거나 의결을 하는 데 필요한 최소한도의 인원수
 
 \#5. 주키퍼 과반수 쿼럼 - http://hamait.tistory.com/193
 
@@ -113,13 +105,4 @@ zxid는 두 부분으로 나뉜다: epoch와 counter이다. zxid는 64-bit로 �
 
 \#7. Atomic Broadcast - http://www.cs.yale.edu/homes/aspnes/pinewiki/Broadcast.html  
 
-\#4. Quorum -http://terms.naver.com/entry.nhn?docId=1140788&cid=40942&categoryId=31645:  
-합의체가 의사(議事)를 진행시키거나 의결을 하는 데 필요한 최소한도의 인원수
-
-\#5. 주키퍼 과반수 쿼럼 - http://hamait.tistory.com/193
-
-
-\#6. Zookeeper Internals - https://zookeeper.apache.org/doc/trunk/zookeeperInternals.html#sc_atomicBroadcast  
-\#7. Atomic Broadcast - http://www.cs.yale.edu/homes/aspnes/pinewiki/Broadcast.html
->>>>>>> 45615400e1c6e9f916b1cedcaf58cfb36d94ac91
 \#8. Causal Order - http://scattered-thoughts.net/blog/2012/08/16/causal-ordering/
