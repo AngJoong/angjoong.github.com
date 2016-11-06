@@ -56,15 +56,56 @@ FIFO 채널에 의해 보내지는 바이트의 시퀀스
 
 zxid는 두 부분으로 나뉜다: epoch와 counter이다. zxid는 64-bit로 구현되어 있다. 상위 32-bit는 epoch, 하위 32-bit는 counter에 사용된다. zxidr가 두 부분으로 나뉘기 때문에 넘버나 정수의 쌍(epoch, counter)으로 나타낸다. (Because it has two parts represent the zxid both as a number and as a pair of integers.) epoch는 리더의 변경을 나타낸다. 새로운 리더가 선출될 때마다 그 리더만의 epoch 넘버를 갖는다. 유니크한 zxid를 프로포절에 할당하는 간단한 알고리즘이 있다: 리더는 단순히 각 프로포절을 위한 zxid를 얻기 위해 zxid를 증가시킨다.  
 
-주키퍼 메시징은 두 페이즈(phases)로 나뉜다.
+주키퍼 메시징은 두 페이지(phases)로 나뉜다.
 
-* **리더 활성화(Leader activation)**  
+* **리더 액티베이션(Leader activation)**  
 리더는 시스템의 정상 상태를 설정하고 프로포절만드는것을 시작할 준비를 한다.
 
 * **액티브 메시징(Active Messaging)**  
 리더는 프로포절을위한 메세지를 받고 메세지 전달을 코디네이트한다.  
 
-리더는 쿼럼이 리더와 같은 상태(state)로 동기화 했을때만 활성화 된다. 상태는 리더가 커밋되었다고 믿는 모든 프로포절과 리더를 따르게 하는 NEW_LEADER 프로포절로 구성되어 있다.  
+각각의 프로포절에 초점을 맞취 않고 전체적인 프로포절의 스트림에 초점을 맞춘다. 제한된 순서는 아토믹 브로드캐스팅을 효과적으로 하게 하고 프로토콜을 매우 단순화 시킨다. 리더 액티베이션은 프로토콜의 개념을 구현한다. 리더는 쿼럼이 리더와 같은 상태(state)로 동기화 했을때만 활성화 된다. 상태는 리더가 커밋되었다고 믿는 모든 프로포절과 리더를 따르게 하는 NEW_LEADER 프로포절로 구성되어 있다.  
+
+## 1.4 리더 액티베이션(Leader activation)
+리더 액티베이션은 리더 일렉션(Leader Election)을 포함한다. 주키퍼에는 현재 2가지 `LeaderElection`과 `FastLeaderElection` 리더 일렉션 알고리즘이 존재 한다. ZooKeeper messaging doesn't care about the exact method of electing a leader has long as the following holds:
+
+* 리더는 팔로워들 중 가장 높은 xzid를 보고있다.
+* 쿼럼은 리더를 따르기 위해 커밋 한다.
+
+두 요구 사항중 첫번째로, 팔로워중 가장 높은 zxid는 정확한 작업을 위해 유지해야 한다. 두번째 요구사항은 서버의 쿼럼은 높은 확률로 유지되어야 한다. (서버에 장애가 발생해 쿼럼이 깨지지 않아야 한다 인듯) 만약 리더 일렉션중 또는 후에 장애가 발새하고 쿼럼을 손실한다면 리더 액티베이션을 포기하고 다른 일렉션을 수행하여 복원한다. We are going to recheck the second requirement, so if a failure happens during or after the leader election and quorum is lost, we will recover by abandoning leader activation and running another election.
+
+리더 일렉션후에 하나의 서버는 리더로 지명되고 팔로우들의 연결을 기다리기 시작한다. 나머지 서버들은 리더에 연결하기 위해 시도한다. 리더는 팔로워들이 손실한 프로포절을 보내 그들과 동기화 하거나 만약 팔로워가 너무 많은 프로포절을 손실했다면 상태의 전체 스냅샷을 보낸다. There is a corner case in which a follower that has proposals, U, not seen by a leader arrives. 프로포절들은 차례대로 보인다. 그래서 U는 리더에 의해 보이는 zxid보다 큰 zxid를 가지고 있을것이다. 팔로워는 반드시 리더 일렉션 후에 도착해야한다, 그렇지 않으면 더 높은 zxid를 보는 팔로워는 리더로 선출될것이다. (otherwise the follower would have been elected leader given that it has seen a higher zxid.) Since committed proposals must be seen by a quorum of servers, and a quorum of servers that elected the leader did not see U, the proposals of you have not been committed, so they can be discarded. When the follower connects to the leader, the leader will tell the follower to discard U.
+
+A new leader establishes a zxid to start using for new proposals by getting the epoch, e, of the highest zxid it has seen and setting the next zxid to use to be (e+1, 0), fter the leader syncs with a follower, it will propose a NEW_LEADER proposal. 일단 NEW_LEADER 프로퍼절이 커밋되면, 리더는 활성화 하고 프로퍼절을 받거나 발행한다.
+
+이 모든게 복잡하게 들리겠지만 리더 액티베이션하는 동안 기본적인 작동 규칙이 있다:
+
+1. 팔로워는 리더와 동기화 한후 NEW_LEADER 프로포절을 ACK한다.
+2. 팔로워는 오직 싱글 서버로부터 받은 zxid만으로 NEW_LEADER 프로퍼절 ACK한다.
+3. 새로운 리더는 쿼럼이 NEW_LEADER를 ACK했을때 커밋할 것이다.
+4. 팔로워는 NEW_LEADER 프로포절이 커밋되면 리더로부터 받은 상태를 커밋할 것이다.
+5. 새로운 리더는 NEW_LEADER 프로포절이 커밋되기 전까지 새로운 프로포절을 받지 않는다.
+
+만약 리더 일렉션이 비정상 종료되어도, 리더가 쿼럼을 갖지 못했기때문에 NEW_LEADER 프로포절이 커밋되지 않아 문제가 없다. 이런일이 발생하면, 리더와 남아있는 팔로워들은 타임아웃 되고 리더 일렉션을 다시 수행 할 것이다.
+
+## 1.5 액티브 메시징(Active Messaging)
+리더 액티베이션 모든 힘든 일을 한다. 일단 리더가 coronated하면, 프로포절 날리는걸 시작할 수 있다.(Once the leader is coronated he can start blasting out proposals.) 리더가 존재하는한 쿼럼을 얻을 수 있는 다른 리더가 없기 때문에 다른 리더는 나타날 수 없다.
+
+만약 새로운 리더가 나타난다면, 리더가 쿼럼을 잃었다는 의미고 새로운 리더의 리더 엑티베이션 동안 나머지 모든 혼란을 정리할 것이다.  
+
+주키퍼 메시징은 클래식 투 페이지 커밋(two-phase commit)과 비슷하게 작동한다.
+![](http://zookeeper.apache.org/doc/trunk/images/2pc.jpg)  
+
+모든 커뮤니케이션 체널은 FIFO다. 그래서 모든게 순서대로 수행된다. 구체적으로 다음과 같은 작업 제약이 관촬된다:  
+
+* 리더는 같은 순서대로 모든 팔로워에게 프로포절을 보낸다. 게다가 이 순서는 받아들여진 요청 순서를 따른다. FIFO 채널을 사용하기 때문에 팔로워들 또한 순서대로 프로포절을 받는다.
+
+* 팔로워는 자신들이 받은 순서대로 메세지를 처리한다. 이것은 FIFO채널이기 때문에 메세지가 순서대로 ACK되고 리더가 팔로워로부터 순서대로 ACK를 받는다는것을 의미한다.
+또한 만약 메세지 M이 비휘발성 저장소에 기록된 경우 M전에 제안된 모든 메세지들은 비휘발성 저장소에 기록되는것을 의미한다.
+
+* 리더는 쿼럼이 메세지를 ACK하면 즉시 모든 팔로워에게 COMMIT을 발행한다. 메세지는 순서대로 ACK되기 때문에 COMMIT은 팔로워에게 받은 순서대로 리더에의해 보내진다.
+
+* COMMIT은 순서대로 처리된다. 팔로워는 프로퍼절이 커밋되면 프로포절 메세지를 전달한다.
 
 
 # 2. Quorums
