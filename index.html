@@ -15,7 +15,7 @@ layout: default
   <h2 class="my-mini-heading">{{ site.first_btn }}</h2>
 
   <ul class="list-style-none">
-    {% for post in site.categories.Spark %}
+    {% for post in site.categories.spark %}
     <li>
       <p class="my-item">
         <a href="{{ post.url | prepend: site.baseurl }}" class="my-link">{{ post.title }}</a><br>
@@ -39,7 +39,7 @@ layout: default
   <h2 class="my-mini-heading">{{ site.second_btn }}</h2>
 
   <ul class="list-style-none">
-    {% for post in site.categories.Zookeeper %}
+    {% for post in site.categories.zookeeper %}
     <li>
       <p class="my-item">
         <a href="{{ post.url | prepend: site.baseurl }}" class="my-link">{{ post.title }}</a><br>
@@ -63,7 +63,7 @@ layout: default
   <h2 class="my-mini-heading">{{ site.third_btn }}</h2>
 
   <ul class="list-style-none">
-    {% for post in site.categories.EffectiveJava %}
+    {% for post in site.categories.effectiveJava %}
     <li>
       <p class="my-item">
         <a href="{{ post.url | prepend: site.baseurl }}" class="my-link">{{ post.title }}</a><br>
@@ -87,7 +87,7 @@ layout: default
   <h2 class="my-mini-heading">{{ site.fourth_btn }}</h2>
 
   <ul class="list-style-none">
-    {% for post in site.categories.Scala %}
+    {% for post in site.categories.scala %}
     <li>
       <p class="my-item">
         <a href="{{ post.url | prepend: site.baseurl }}" class="my-link">{{ post.title }}</a><br>
@@ -106,31 +106,6 @@ layout: default
     <a onclick="hide_lists();" class="waves-effect waves-teal btn-flat btn-large">{{ site.close_btn }}</a>
   </div>
 </div>
-<div id="other" class="category">
-
-  <h2 class="my-mini-heading">{{ site.other_btn }}</h2>
-
-  <ul class="list-style-none">
-    {% for post in site.categories.Other %}
-    <li>
-      <p class="my-item">
-        <a href="{{ post.url | prepend: site.baseurl }}" class="my-link">{{ post.title }}</a><br>
-        <span class="my-item-sub">{{ post.date | date: "%b %-d, %Y" }}</span>
-      </p>
-    </li>
-    {% endfor %}
-    <li>
-      <p class="my-item">
-        <a href="{{ "/feed.xml" | prepend: site.baseurl }}" class="my-link">RSS</a> / <a href="{{ "/atom.xml" | prepend: site.baseurl }}" class="my-link">ATOM</a><br>
-        <span class="my-item-sub"><i class="fa fa-rss" aria-hidden="true"></i> {{ site.rss_badge }}</span>
-    </li>
-  </ul>
-
-  <div>
-    <a onclick="hide_lists();" class="waves-effect waves-teal btn-flat btn-large">{{ site.close_btn }}</a>
-  </div>
-</div>
-
 <div id="archive" class="category">
 
   <h2 class="my-mini-heading">{{ site.archive_btn }}</h2>
