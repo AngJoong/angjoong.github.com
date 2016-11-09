@@ -6,6 +6,8 @@ layout: default
   <a id="first-btn" class="waves-effect waves-teal btn-flat btn-large category-btn" onclick="show_category('first');">{{ site.first_btn }}</a>
   <a id="second-btn" class="waves-effect waves-teal btn-flat btn-large category-btn" onclick="show_category('second');">{{ site.second_btn }}</a>
   <a id="third-btn" class="waves-effect waves-teal btn-flat btn-large category-btn" onclick="show_category('third');">{{ site.third_btn }}</a>
+  <a id="fourth-btn" class="waves-effect waves-teal btn-flat btn-large category-btn" onclick="show_category('third');">{{ site.fourth_btn }}</a>
+  <a id="other-btn" class="waves-effect waves-teal btn-flat btn-large category-btn" onclick="show_category('third');">{{ site.other_btn }}</a>
   <a id="archive-btn" class="waves-effect waves-teal btn-flat btn-large category-btn" onclick="show_category('archive');">{{ site.archive_btn }}</a>
 </div>
 <div id="first" class="category">
@@ -13,7 +15,7 @@ layout: default
   <h2 class="my-mini-heading">{{ site.first_btn }}</h2>
 
   <ul class="list-style-none">
-    {% for post in site.categories.scala %}
+    {% for post in site.categories.Spark %}
     <li>
       <p class="my-item">
         <a href="{{ post.url | prepend: site.baseurl }}" class="my-link">{{ post.title }}</a><br>
@@ -37,7 +39,7 @@ layout: default
   <h2 class="my-mini-heading">{{ site.second_btn }}</h2>
 
   <ul class="list-style-none">
-    {% for post in site.categories.zookeeper %}
+    {% for post in site.categories.Zookeeper %}
     <li>
       <p class="my-item">
         <a href="{{ post.url | prepend: site.baseurl }}" class="my-link">{{ post.title }}</a><br>
@@ -61,7 +63,7 @@ layout: default
   <h2 class="my-mini-heading">{{ site.third_btn }}</h2>
 
   <ul class="list-style-none">
-    {% for post in site.categories.effectiveJava %}
+    {% for post in site.categories.EffectiveJava %}
     <li>
       <p class="my-item">
         <a href="{{ post.url | prepend: site.baseurl }}" class="my-link">{{ post.title }}</a><br>
@@ -80,6 +82,55 @@ layout: default
     <a onclick="hide_lists();" class="waves-effect waves-teal btn-flat btn-large">{{ site.close_btn }}</a>
   </div>
 </div>
+<div id="fourth" class="category">
+
+  <h2 class="my-mini-heading">{{ site.fourth_btn }}</h2>
+
+  <ul class="list-style-none">
+    {% for post in site.categories.Scala %}
+    <li>
+      <p class="my-item">
+        <a href="{{ post.url | prepend: site.baseurl }}" class="my-link">{{ post.title }}</a><br>
+        <span class="my-item-sub">{{ post.date | date: "%b %-d, %Y" }}</span>
+      </p>
+    </li>
+    {% endfor %}
+    <li>
+      <p class="my-item">
+        <a href="{{ "/feed.xml" | prepend: site.baseurl }}" class="my-link">RSS</a> / <a href="{{ "/atom.xml" | prepend: site.baseurl }}" class="my-link">ATOM</a><br>
+        <span class="my-item-sub"><i class="fa fa-rss" aria-hidden="true"></i> {{ site.rss_badge }}</span>
+    </li>
+  </ul>
+
+  <div>
+    <a onclick="hide_lists();" class="waves-effect waves-teal btn-flat btn-large">{{ site.close_btn }}</a>
+  </div>
+</div>
+<div id="other" class="category">
+
+  <h2 class="my-mini-heading">{{ site.other_btn }}</h2>
+
+  <ul class="list-style-none">
+    {% for post in site.categories.Other %}
+    <li>
+      <p class="my-item">
+        <a href="{{ post.url | prepend: site.baseurl }}" class="my-link">{{ post.title }}</a><br>
+        <span class="my-item-sub">{{ post.date | date: "%b %-d, %Y" }}</span>
+      </p>
+    </li>
+    {% endfor %}
+    <li>
+      <p class="my-item">
+        <a href="{{ "/feed.xml" | prepend: site.baseurl }}" class="my-link">RSS</a> / <a href="{{ "/atom.xml" | prepend: site.baseurl }}" class="my-link">ATOM</a><br>
+        <span class="my-item-sub"><i class="fa fa-rss" aria-hidden="true"></i> {{ site.rss_badge }}</span>
+    </li>
+  </ul>
+
+  <div>
+    <a onclick="hide_lists();" class="waves-effect waves-teal btn-flat btn-large">{{ site.close_btn }}</a>
+  </div>
+</div>
+
 <div id="archive" class="category">
 
   <h2 class="my-mini-heading">{{ site.archive_btn }}</h2>
