@@ -1,4 +1,4 @@
-.highlight  { background: #ffffff; }
+.highlight  { background: #ffffff; font-family: 'Nanum Gothic Coding', sans-serif;}
 .highlight .c { color: #999988; font-style: italic } /* Comment */
 .highlight .err { color: #a61717; background-color: #e3d2d2 } /* Error */
 .highlight .k { font-weight: bold } /* Keyword */
@@ -77,4 +77,4 @@ code.highlighter-rouge {background: #f3f3f3; padding: 4px; border-radius: 5px; c
 
 p {margin-bottom: 5px}
 ul, ol{margin-top: 0px}
-.list-style-none{list-style-type: none;}
+.list-style-none{list-style: none;}
