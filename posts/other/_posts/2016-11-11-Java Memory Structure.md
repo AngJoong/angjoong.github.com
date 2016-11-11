@@ -15,17 +15,17 @@ author: "AngJoong"
 ###### &lt;Java 애플리케이션 실행 환경>
 ![](http://cfile7.uf.tistory.com/image/03289A4B51A455601F4C48)
 
-* Class Loader  
-: JVM내로 클래스를 로드하고 링크를 통해 배치하는 작업을 수행하는 모듈로써 **런타임시 동적으로 클래스를 로드** 한다.
+* **Class Loader**  
+JVM내로 클래스를 로드하고 링크를 통해 배치하는 작업을 수행하는 모듈로써 **런타임시 동적으로 클래스를 로드** 한다.
 
-* Execution Engine  
-: Class Loader를 통해 JVM 내의 런타임 데이터 영역에 배치된 **자바 바이트 코드를 명령어 단위로 읽어서 실행** 한다.
+* **Execution Engine**  
+Class Loader를 통해 JVM 내의 런타임 데이터 영역에 배치된 **자바 바이트 코드를 명령어 단위로 읽어서 실행** 한다.
 
-* Garbage Collector  
-: 애플리케이션이 생성한 객체의 생존 여부를 판단하여 더 이상 사용되지 않는 **객체를 해제하는 방식으로 메모리를 자동 관리** 한다.
+* **Garbage Collector**  
+애플리케이션이 생성한 객체의 생존 여부를 판단하여 더 이상 사용되지 않는 **객체를 해제하는 방식으로 메모리를 자동 관리** 한다.
 
-* Runtime Data Areas  
-: JVM이 운영체제 위에서 실행되면서 **할당받는 메모리 영역** 이다. Class Loader에서 준비한 데이터들을 보관하는 저장소이다.
+* **Runtime Data Areas**  
+JVM이 운영체제 위에서 실행되면서 **할당받는 메모리 영역** 이다. Class Loader에서 준비한 데이터들을 보관하는 저장소이다.  
 
 ###### &lt;Java 애플리케이션 실행 구조>
 ![](http://cfile27.uf.tistory.com/image/0139C94D51A4557F390D7A)
@@ -53,4 +53,10 @@ JVM이 읽어들인 런타임 상수 풀, **멤버 변수**, **스태틱 변수*
 ## 2.6 Heap
 런타임 시 **동적으로 할당하여 사용하는 영역** 이다. New 연산자로 생성된 객체와 배열을 저장한다. 힙 영역에 생성된 객체와 배열은 스택 영역의 변수나 다른 객체의 필드에서 참조한다. 참조가 없다면 의미 없는 객체가 되어 GC의 대상이 된다.
 
-\#1. Java Memory - http://hoonmaro.tistory.com/19
+<br>
+<br>
+<br>
+<br>
+<br>
+
+\#1. Java Memory - <http://hoonmaro.tistory.com/19>
