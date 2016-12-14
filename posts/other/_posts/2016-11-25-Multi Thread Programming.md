@@ -11,8 +11,8 @@ author: "AngJoong"
 스레드는 CPU 이용의 기본 단위이다. 스레드 ID, 프로그램 카운터, 레지스터 집합, 그리고 스택으로 구성된다.  
 <br/>
 <br/>
-&lt;단일 및 다중 스레드 프로세스>
-![](http://postfiles11.naver.net/20150417_202/three_letter_1429254488468egL0u_JPEG/4_01_ThreadDiagram.jpg?type=w2)
+&lt;단일 및 다중 스레드 프로세스>  
+![](http://postfiles11.naver.net/20150417_202/three_letter_1429254488468egL0u_JPEG/4_01_ThreadDiagram.jpg?type=w2) {.aligncenter}
 
 ## 1.1 동기
 웹 서버가 전통적인 단일 스레드 프로세스로 작동한다면, 자신의 단일 프로세스로 **한 번에 하나의 클라이언트만 서비스할 수 있게 되어** 클라이언트는 자신의 요구가 서비스되기까지 매우 긴 시간을 기다려야 한다.  
