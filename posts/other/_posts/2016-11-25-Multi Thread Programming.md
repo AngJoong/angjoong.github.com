@@ -9,7 +9,8 @@ author: "AngJoong"
 
 # 1. Overview
 스레드는 CPU 이용의 기본 단위이다. 스레드 ID, 프로그램 카운터, 레지스터 집합, 그리고 스택으로 구성된다.  
-
+<br/>
+<br/>
 &lt;단일 및 다중 스레드 프로세스>
 ![](http://postfiles11.naver.net/20150417_202/three_letter_1429254488468egL0u_JPEG/4_01_ThreadDiagram.jpg?type=w2)
 
@@ -19,7 +20,8 @@ author: "AngJoong"
 하나의 해결책은 서버에게 요청이 들어오면, 프로세스는 그 요청을 실행할 별도의 프로세스를 생성하는 것이다. 하지만 새 프로세스가 해야 할 일이 기존 프로세스와 동일한데 프로세스 생성 오버헤드를 감수할 필요가 없다.  
 
 대부분의 경우 **프로세스 안에 여러 스레드를 만들어 나가는 것이 더 효율 적이다.**  
-
+<br/>
+<br/>
 &lt;다중 스레드화 된 서버 구조 - 요청 수신과 처리 스레드 분리>
 ![](http://postfiles15.naver.net/20150417_286/three_letter_142925454398959i6U_JPEG/4_02_MultithreadedArchitecture.jpg?type=w2)
 
@@ -36,15 +38,19 @@ author: "AngJoong"
 다중 스레드 프로그래밍은 다중 코어를 더 효율적으로 사용할 수 있고 병행성을 더 향상시킬 수 있는 기법을 제공한다.  
 
 하나의 코어는 한번에 오직 하나의 스레드만 실행할 수 있기 때문에 코어가 한 개인 시스템 상에서 병행성은 단순히 스레드의 실행이 시간에 따라 교대로 실행된다는 것을 의미한다.  
-
+<br/>
+<br/>
 &lt;단일 코어 시스템에서의 병행 실행>  
-![](http://postfiles16.naver.net/20150417_95/three_letter_1429254600113YiEFV_JPEG/4_03_ConcurrentSingleCore.jpg?type=w2)
-
+![](http://postfiles16.naver.net/20150417_95/three_letter_1429254600113YiEFV_JPEG/4_03_ConcurrentSingleCore.jpg?type=w2)  
+<br/>
+<br/>
 그러나, 여러 코어를 가진 시스템에서는 시스템이 개별 스레드를 각 콕어에 배정할 수 있기 때문에 병행성은 스레드들이 병렬적으로 실행될 수 있다는 것을 뜻한다.  
-
+<br/>
+<br/>
 &lt;다중 코어 시스템에서의 병행 실행>  
 ![](http://postfiles3.naver.net/20150417_290/three_letter_1429254600234Mjt6D_JPEG/4_04_ParralelMulticore.jpg?type=w2)  
-
+<br/>
+<br/>
 일반적으로 다중코어 시스템 상에서 프로그래밍을 하기 위해서는 5개의 극복해야 할 도전 과제가 있다.  
 
 1. 작업 나누기 (dividing activities): 각 태스크가 개별 코어 상에서 병렬적으로 실행될 수 있도록 응용을 독립된 태스크로 나누는 작업  
