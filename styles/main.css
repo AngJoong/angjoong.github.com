@@ -248,8 +248,9 @@ a{
 }
 img{
     max-width: 100%;
+    margin-top: 10px
 }
 
 img.alignleft{float:left}
 img.alignright{float:right}
-img.aligncenter{display:block;margin:0 auto}
+img.aligncenter{display:block;margin:10px auto}
