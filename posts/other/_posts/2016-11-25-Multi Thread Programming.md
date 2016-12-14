@@ -11,11 +11,11 @@ author: "AngJoong"
 스레드는 CPU 이용의 기본 단위이다. 스레드 ID, 프로그램 카운터, 레지스터 집합, 그리고 스택으로 구성된다.  
 
 <br/>
-&lt;단일 및 다중 스레드 프로세스>  
+**&lt;단일 및 다중 스레드 프로세스>**
 <img  class="aligncenter" src="http://postfiles11.naver.net/20150417_202/three_letter_1429254488468egL0u_JPEG/4_01_ThreadDiagram.jpg?type=w2">
 <br/>
 <br/>
-  
+
 ## 1.1 동기
 웹 서버가 전통적인 단일 스레드 프로세스로 작동한다면, 자신의 단일 프로세스로 **한 번에 하나의 클라이언트만 서비스할 수 있게 되어** 클라이언트는 자신의 요구가 서비스되기까지 매우 긴 시간을 기다려야 한다.  
 
@@ -24,7 +24,7 @@ author: "AngJoong"
 대부분의 경우 **프로세스 안에 여러 스레드를 만들어 나가는 것이 더 효율 적이다.**  
 
 <br/>
-&lt;다중 스레드화 된 서버 구조 - 요청 수신과 처리 스레드 분리>
+**&lt;다중 스레드화 된 서버 구조 - 요청 수신과 처리 스레드 분리>**
 <img class="aligncenter" src="http://postfiles15.naver.net/20150417_286/three_letter_142925454398959i6U_JPEG/4_02_MultithreadedArchitecture.jpg?type=w2">
 <br/>
 <br/>
@@ -44,7 +44,7 @@ author: "AngJoong"
 하나의 코어는 한번에 오직 하나의 스레드만 실행할 수 있기 때문에 코어가 한 개인 시스템 상에서 병행성은 단순히 스레드의 실행이 시간에 따라 교대로 실행된다는 것을 의미한다.  
 
 <br/>
-&lt;단일 코어 시스템에서의 병행 실행>  
+**&lt;단일 코어 시스템에서의 병행 실행>**
 <img class="aligncenter" src="http://postfiles16.naver.net/20150417_95/three_letter_1429254600113YiEFV_JPEG/4_03_ConcurrentSingleCore.jpg?type=w2">
 <br/>
 <br/>
@@ -52,7 +52,7 @@ author: "AngJoong"
 그러나, 여러 코어를 가진 시스템에서는 시스템이 개별 스레드를 각 콕어에 배정할 수 있기 때문에 병행성은 스레드들이 병렬적으로 실행될 수 있다는 것을 뜻한다.  
 
 <br/>
-&lt;다중 코어 시스템에서의 병행 실행>  
+**&lt;다중 코어 시스템에서의 병행 실행>**
 <img class="aligncenter" src="http://postfiles3.naver.net/20150417_290/three_letter_1429254600234Mjt6D_JPEG/4_04_ParralelMulticore.jpg?type=w2">
 <br/>
 <br/>
