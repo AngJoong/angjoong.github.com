@@ -68,3 +68,35 @@ author: "AngJoong"
 4. 데이터 종속성 (data dependency): 둘 이상의 태스크 사이에 종속성이 없는지 검토해야 한다. 데이터가 종속적인 경우 적절한 동기화가 필요하다.  
 
 5. 시험 및 디버깅 (testing and debugging): 단일 스레드에서 시험하고 디버깅하는것 보다 어렵다.  
+
+# 2. 다중 스레드 모델 (Multithreading Models)
+스레드를 위한 지원 및 관리는 사용자 스레드(user threads)는 사용자 수준에서, 커널 스레드(kernel threads)는 커널 수준에서 제공된다.  
+
+각 수준에서 관리되는 사용자 스레드와 커널 스레드에는 연관 관계가 필요하다.  
+
+## 2.1 다-대-일 모델 (Many-to-One Model)
+다수의 사용자 수준 스레드를 하나의 커널 스레드에 사상한다. 시스템 호출에 의한 커널 접근이 하나의 커널 스레드에서만 가능하기 때문에 **다중 스레드가 다중 처리기에서 수행되어도 병렬로 작동할 수 없다.**  
+
+<br/>
+**&lt;다-대-일 모델>**  
+<img class="aligncenter" src="https://www.cs.uic.edu/~jbell/CourseNotes/OperatingSystems/images/Chapter4/4_05_ManyToOne.jpg">
+<br/>
+<br/>
+
+## 2.2 일-대-일 모델 (One-to-One Model)
+각 사용자 스레드를 각각의 커널 스레드에 사상한다. **하나의 스레드가 봉쇄적 시스템 호출을 하더라도 다른 스레드가 실행될 수 있다.** 다-대-일 모델보다 더 높은 병렬성을 제공한다. 단, 사용자 스레드마다 커널 스레드를 생성하는 **오버헤드가 발생할 수 있어 시스템에의해 지원되는 스레드의 수를 제한한다.**  
+
+<br/>
+**&lt;일-대-일 모델>**  
+<img class="aligncenter" src="https://www.cs.uic.edu/~jbell/CourseNotes/OperatingSystems/images/Chapter4/4_06_OneToOne.jpg">
+<br/>
+<br/>
+
+## 2.3 다-대-다 모델 (Many-to-Many Model)
+여러 개의 사용자 수준 스레드를 그보다 작거나 같은 수의 커널 스레드로 다중화한다. **개발자는 필요한 만큼 많은 사용자 수준의 스레드를 생성할 수 있다. 또, 커널 스레드가 다중 처리기에서 병렬로 실핼될 수도 있다.** 사용자 스레드가 하나의 커널 스레드에 종속되는 두 수준 모델(two-level model)을 사용하기도 한다.  
+
+<br/>
+**&lt;다-대-다 모델 & 두 수준 모델>**  
+<img class="aligncenter" src="https://www.cs.uic.edu/~jbell/CourseNotes/OperatingSystems/images/Chapter4/4_08_TwoLevel.jpg">
+<br/>
+<br/>
