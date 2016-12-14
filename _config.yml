@@ -26,7 +26,7 @@ name_badge: "To Infinity, and Beyond!"
 rss_badge: "Feed abbonieren!"
 
 # build settings
-markdown: markdown
+markdown: kramdown
 highlighter: rouge
 syntax-highlighting:
   enabled : true
